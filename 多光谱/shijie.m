@@ -182,12 +182,12 @@ plot(1:2808,dx1);     % 输出结果图
 
 %%center均值中心化：%X是样本*变量
 [cdata,me,ctest]=center(X,1,X);   %如果变量*样本数 需要转置
-plot(1:120,cdata);  %输出结果图
+plot(1:25,cdata);  %输出结果图
 
-%MSC：%X是样本*变量
+%MSC：%X是样本*变量，120x25
 [xmsc,me,xtmsc]=MSC(x,first,last,xt);  %不需要输入
-[xmsc,me]=MSC(X',1,120);  %1为第一个变量 3648为最后一个变量
-plot(1:120,xmsc);  %输出结果图
+[xmsc,me]=MSC(X,1,25);  %1为第一个变量 25为最后一个变量
+plot(1:25,xmsc);  %输出结果图
 
 
 %划分样本三种

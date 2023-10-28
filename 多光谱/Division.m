@@ -16,3 +16,6 @@ Xc=[X1;X3;X5];
 Xt=[X2;X4];
 Yc=[Y1;Y3;Y5];
 Yt=[Y2;Y4];
+
+% 清除变量Y1到Y5和X1到X5
+clear Y1 Y2 Y3 Y4 Y5 X1 X2 X3 X4 X5 z1 z2 num_total;
