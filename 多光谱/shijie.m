@@ -1,55 +1,59 @@
-% % PLS
-% Model=ipls(Xc,Yc,10,'mean',1,[],'syst123',5); %10为主成分，可改为15，1为将整个光谱作为一个区间，"mean"是光谱预处理方法，”syst123“和5 表示采用交互验证的方法和每次交互验证所用样本的数量
-% iplsplot(Model,'intlabel');
-% plsrmse(Model,0);     %得出主成分数，0是个参数
+%师姐的算法 
+% 
+% 
+% 
+ % PLS
+ Model=ipls(Xc,Yc,10,'mean',1,[],'syst123',5); %10为主成分，可改为15，1为将整个光谱作为一个区间，"mean"是光谱预处理方法，”syst123“和5 表示采用交互验证的方法和每次交互验证所用样本的数量
+ iplsplot(Model,'intlabel');
+ plsrmse(Model,0);     %得出主成分数，0是个参数
 
-% num_total =10;   %主成分数
-% plspvsm(Model,num_total,1);
-% oneModel=plsmodel(Model,1,num_total,'mean','test',5);  
-% predModel=plspredict(Xc,oneModel,num_total,Yc);
-% plspvsm(predModel,num_total,1,1);    %把RMSEP改成RMSEC
-% predModel=plspredict(Xt,oneModel,num_total,Yt);
-% plspvsm(predModel,num_total,1,1);      %预测集的结果  
+ num_total =9;   %主成分数
+ plspvsm(Model,num_total,1);
+ oneModel=plsmodel(Model,1,num_total,'mean','test',5);  
+ predModel=plspredict(Xc,oneModel,num_total,Yc);
+ plspvsm(predModel,num_total,1,1);    %把RMSEP改成RMSEC
+ predModel=plspredict(Xt,oneModel,num_total,Yt);
+ plspvsm(predModel,num_total,1,1);      %预测集的结果  
 
 
 
 % % CARS
-% MCCV=plsmccv(X,Y,15,'center',1000,0.8);
-% CARS=carspls(X,Y,MCCV.optPC,5,'center',50); 
-% plotcars(CARS);
-% SelectedVariables=CARS.vsel;
+ MCCV=plsmccv(X,Y,15,'center',1000,0.8);
+ CARS=carspls(X,Y,MCCV.optPC,5,'center',50); 
+ plotcars(CARS);
+ SelectedVariables=CARS.vsel;
 
-% Xt3=Xt(:,SelectedVariables);
-% Xc3=Xc(:,SelectedVariables);
+ Xt3=Xt(:,SelectedVariables);
+ Xc3=Xc(:,SelectedVariables);
 
-% Model=ipls(Xc3,Yc,10,'mean',1,[],'syst123',5);
-% iplsplot(Model,'intlabel')
-% plsrmse(Model,0)
+ Model=ipls(Xc3,Yc,10,'mean',1,[],'syst123',5);
+ iplsplot(Model,'intlabel')
+ plsrmse(Model,0)
 
-% num_total =8;   %主成分数
-% plspvsm(Model,num_total,1);        %更改主成分数
-% oneModel=plsmodel(Model,1,num_total,'mean','syst123',5);
-% predModel=plspredict(Xc3,oneModel,num_total,Yc);
-% plspvsm(predModel,num_total)
-% predModel=plspredict(Xt3,oneModel,num_total,Yt);
-% plspvsm(predModel,num_total)
+ num_total =8;   %主成分数
+ plspvsm(Model,num_total,1);        %更改主成分数
+ oneModel=plsmodel(Model,1,num_total,'mean','syst123',5);
+ predModel=plspredict(Xc3,oneModel,num_total,Yc);
+  plspvsm(predModel,num_total)
+ predModel=plspredict(Xt3,oneModel,num_total,Yt);
+ plspvsm(predModel,num_total)
 
-% Variables = xaxis(SelectedVariables,1);  %SelectedVariables选出来的变量从xaxis里摘出来,参数不变    
+ Variables = xaxis(SelectedVariables,1);  %SelectedVariables选出来的变量从xaxis里摘出来,参数不变    
 
 
 % SiPLS
 
-% siModel=sipls(Xc,Yc,10,'mean',11,2,xaxis2,'syst123',5);
-% siplstable(siModel);
+ siModel=sipls(Xc,Yc,10,'mean',11,2,xaxis2,'syst123',5);
+ siplstable(siModel);
 
-% num_total =6;   %主成分数
-% FinalModel=plsmodel(siModel,[ 7    8] ,num_total,'mean','syst123',5);
-% plspvsm(FinalModel,num_total,1);
-% oneModel=plsmodel(siModel,[ 7    8] ,num_total,'mean','test',5);
-% predModel=plspredict(Xc,oneModel,num_total,Yc);
-% plspvsm(predModel,num_total,1,1);
-% predModel=plspredict(Xt,oneModel,num_total,Yt);
-% plspvsm(predModel,num_total,1,1);      %预测集的结果 
+ num_total =6;   %主成分数
+ FinalModel=plsmodel(siModel,[ 7    8] ,num_total,'mean','syst123',5);
+ plspvsm(FinalModel,num_total,1);
+ oneModel=plsmodel(siModel,[ 7    8] ,num_total,'mean','test',5);
+ predModel=plspredict(Xc,oneModel,num_total,Yc);
+ plspvsm(predModel,num_total,1,1);
+ predModel=plspredict(Xt,oneModel,num_total,Yt);
+ plspvsm(predModel,num_total,1,1);      %预测集的结果 
 
 ACO  E:\荣艳娜硕士\算法代码\ACO+SA+GA+siPLS\ACO+SA+GA+siPLS\ACO-PLS
 Xcal=Xc;
@@ -177,13 +181,13 @@ X=dx2;
 plot(1:2808,dx1);     % 输出结果图
 
 %%center均值中心化：%X是样本*变量
-[cdata,me,ctest]=center(X',1,X');   %如果变量*样本数 需要转置
-plot(1:3648,cdata);  %输出结果图
+[cdata,me,ctest]=center(X,1,X);   %如果变量*样本数 需要转置
+plot(1:120,cdata);  %输出结果图
 
 %MSC：%X是样本*变量
 [xmsc,me,xtmsc]=MSC(x,first,last,xt);  %不需要输入
-[xmsc,me]=MSC(X,1,3648);  %1为第一个变量 3648为最后一个变量
-plot(1:3648,xmsc);  %输出结果图
+[xmsc,me]=MSC(X',1,120);  %1为第一个变量 3648为最后一个变量
+plot(1:120,xmsc);  %输出结果图
 
 
 %划分样本三种
