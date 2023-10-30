@@ -1,5 +1,5 @@
 plot(Yc, Yc2, 'o', 'MarkerSize', 8, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'none'); % 蓝色空心圆圈表示校正集
-hold on;
+hold on; 
 
 % 绘制预测集的散点图（用红色实心星号表示）
 plot(Yt, Yt2, '*', 'MarkerSize', 8, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r'); % 红色实心星号表示预测集

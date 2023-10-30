@@ -1,6 +1,5 @@
 %感兴趣区域提取
 
-
 for i = 1:120 
     filename = strcat('D:\\蒸汽\\1\\',num2str(i),'.bmp');
     A=imread(filename);

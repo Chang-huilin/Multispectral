@@ -1,5 +1,4 @@
 %提取叶绿素特征，rgb，hsi，lab
-
 X=zeros(120,18);
 for i = 1:120
     filename = strcat('C:\Users\79365\OneDrive\桌面\多光谱数据\叶绿素\1\',num2str(i),'.bmp');
@@ -70,4 +69,4 @@ for i = 1:120
     %     T1=[T1;T];%样本集，每个样本的特征作为一行
     Iw(i,:)=T; %#ok<SAGROW>
 end
-xlswrite('C:\Users\79365\OneDrive\桌面\多光谱数据\叶绿素\120.xls',Iw); %#ok<XLSWT> %将数据保存到E盘，并命名为d1（第一天）
+xlswrite('C:\Users\79365\OneDrive\桌面\多光谱数据\叶绿素\120.xls',Iw); %#ok<XLSWT> %将数据保存到excel
