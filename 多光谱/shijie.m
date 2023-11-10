@@ -18,7 +18,7 @@
 
 
 % % CARS
- MCCV=plsmccv(X,Y,15,'center',1000,0.8);
+ MCCV=plsmccv(X,Y,10,'center',1000,0.8);
  CARS=carspls(X,Y,MCCV.optPC,5,'center',50); 
  plotcars(CARS);
  SelectedVariables=CARS.vsel;
@@ -43,7 +43,7 @@
 
 % SiPLS
 
- siModel=sipls(Xc,Yc,10,'mean',11,2,xaxis2,'syst123',5);
+ siModel=sipls(Xc,Yc,10,'NONE',11,2,xaxis2,'syst123',5);
  siplstable(siModel);
 
  num_total =6;   %主成分数
