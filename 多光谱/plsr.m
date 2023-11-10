@@ -1,36 +1,68 @@
-Model=ipls(Xc,Yc,10,'none',1,[],'syst123',5); %10为主成分，可改为15，1为将整个光谱作为一个区间，"none"是光谱预处理方法,可以选择'mean', 'auto', 'mscmean', 'mscauto', 'none'，”syst123“和5 表示采用交互验证的方法和每次交互验证所用样本的数量
- iplsplot(Model,'intlabel'); %#ok<*ASGLU>
- plsrmse(Model,0);     %得出主成分数，0是个参数
- 
- num_total =10;   %主成分数
- %训练
- plspvsm(Model,num_total,1);
- oneModel=plsmodel(Model,1,num_total,'mean','test',5);  
- %矫正
- predModel=plspredict(Xc,oneModel,num_total,Yc);%获得Rc，Yc2
- plspvsm(predModel,num_total,1);    %把图标内的RMSEP改成RMSEC，这里函数默认输出显示RMSEP，实际上输出RMSEC，需要改一下图内的RMSEP为RMSEC
-%预测
- predModel=plspredict(Xt,oneModel,num_total,Yt);%获得Rp，Yt2
- plspvsm(predModel,num_total,1,1);      %预测集的结果  
+% Xc_normalized 是中心化和标准化后的训练集，Yc 是训练集的目标
+% Xt_normalized 是中心化和标准化后的测试集，Yt 是测试集的目标
+
+% 定义主成分数的范围
+num_components_range = 1:10;
+
+% 初始化交叉验证的均方根误差（RMSE）向量
+rmse_cv = zeros(length(num_components_range), 1);
+
+% 使用交叉验证选择最合适的主成分数
+for i = 1:length(num_components_range)
+    num_components = num_components_range(i);
+    
+    % 建立PLSR模型
+    [XL,yl,XS,YS,beta,PCTVAR,MSE,stats] = plsregress(Xc, Yc, num_components);
+    
+    % 在训练集上进行预测
+    Yc_predicted = [ones(size(Xc, 1), 1), Xc] * beta;
+    
+    % 计算交叉验证的均方根误差（RMSE）
+    rmse_cv(i) = sqrt(mean((Yc - Yc_predicted).^2));
+end
+
+% 找到最小的交叉验证均方根误差对应的主成分数
+optimal_num_components = num_components_range(rmse_cv == min(rmse_cv));
+
+% 输出最优的主成分数
+disp(['最优的主成分数为: ', num2str(optimal_num_components)]);
+
+% 使用最优的主成分数建立PLSR模型
+[num_components, Yc_predicted, Yt_predicted] = buildPLSRModel(Xc, Yc, Xt, optimal_num_components);
+
+% 计算训练集的相关系数（Rc）
+Rc = corr(Yc, Yc_predicted);
+
+% 计算测试集的相关系数（Rp）
+Rp = corr(Yt, Yt_predicted);
+
+% 计算训练集的均方根误差（RMSEC）
+RMSEC = sqrt(mean((Yc - Yc_predicted).^2));
+
+% 计算测试集的均方根误差（RMSEP）
+RMSEP = sqrt(mean((Yt - Yt_predicted).^2));
+
+% 计算RPD值
+RPD = std(Yc) / RMSEP;
+
+% 输出结果
+disp(['训练集的相关系数 Rc: ', num2str(Rc)]);
+disp(['测试集的相关系数 Rp: ', num2str(Rp)]);
+disp(['训练集的均方根误差 RMSEC: ', num2str(RMSEC)]);
+disp(['测试集的均方根误差 RMSEP: ', num2str(RMSEP)]);
+disp(['RPD值为: ', num2str(RPD)]);
+
+% 定义函数用于建立PLSR模型
+function [num_components, Yc_predicted, Yt_predicted] = buildPLSRModel(Xc, Yc, Xt, num_components)
+    % 建立PLSR模型
+    [XL,yl,XS,YS,beta,PCTVAR,MSE,stats] = plsregress(Xc, Yc, num_components); %#ok<*ASGLU>
+    
+    % 在训练集上进行预测
+    Yc_predicted = [ones(size(Xc, 1), 1), Xc] * beta;
+    
+    % 在测试集上进行预测
+    Xt_with_bias = [ones(size(Xt, 1), 1), Xt];
+    Yt_predicted = Xt_with_bias * beta;
+end
 
 
-
-
-
-% 设定主成分数（可以根据需要调整）
-num_components = 2;
-
-% 使用plsregress函数进行PLSR建模
-[~,~,~,~,coefficients] = plsregress(X, Y, num_components);
-
-% 输出PLSR模型的系数
-disp('PLSR模型系数:');
-disp(coefficients);
-
-% 使用PLSR模型进行预测（这里的X_pred是新样本的特征矩阵）
-X_pred = randn(10, 10);  % 10个新样本，每个样本有10个特征
-Y_pred = [ones(size(X_pred, 1), 1), X_pred] * coefficients;  % 预测目标变量
-
-% 输出预测结果
-disp('预测结果:');
-disp(Y_pred);
