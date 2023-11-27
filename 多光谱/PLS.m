@@ -37,3 +37,5 @@ legend('R_c=0.9885 RMSEP=3.6417','R_p=0.9717 RMSEP=5.7096','Location', 'Northwes
 
 RPD = std(Yt) / predModel.RMSE(1, end);
 disp(['RPDֵΪ: ', num2str(RPD)]);
+
+varNames = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y'};
