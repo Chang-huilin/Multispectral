@@ -13,3 +13,5 @@ Xc=normalized_Xc;
 Xt=normalized_Xt;
 
 %注意使用训练集的均值和标准差对Xc和Xt进行Z-score归一化。
+
+clear normalized_Xc normalized_Xt mean_vals std_devs;
