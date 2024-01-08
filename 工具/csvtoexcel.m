@@ -1,7 +1,7 @@
 %% 这是一个将csv文件批量转化为excel文件并存入一个数组矩阵，最后提取数组矩阵内的值到一个大矩阵内
 %方法1
 % 指定文件夹路径
-folderPath = 'C:\Users\79365\OneDrive\桌面\多光谱数据\热风1\1';
+folderPath = 'C:\Users\79365\OneDrive\桌面\多光谱数据\热风2';
 
 % 获取文件夹内所有CSV文件的信息
 fileList = dir(fullfile(folderPath, '*.csv'));

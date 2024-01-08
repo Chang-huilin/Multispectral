@@ -19,7 +19,7 @@ mean_vals = mean(Xc);
 centered_Xc = Xc - mean_vals;
 
 % 使用训练集的特征均值对测试集进行中心化处理
-centered_Xt = Xt - mean_vals;
+centered_Xt = Xt - mean_vals;%这里减去的是训练集的均值，而不是测试集的均值
 
 
 
